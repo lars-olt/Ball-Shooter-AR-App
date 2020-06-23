@@ -22,6 +22,7 @@ var ballCount = 15
 var ball: Ball?
 var currentColor: UIColor?
 var currentBallColor: UIColor?
+var bounds = UIScreen.main.bounds
 
 enum BodyType: Int {
     case screen = 1
@@ -72,6 +73,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set up the view controller
+        let vc = UIViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true, completion: nil)
+        
         // Set the view's delegate
         sceneView.delegate = self
         
@@ -83,13 +89,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
         sceneView.scene.physicsWorld.contactDelegate = self
         
         // Set up the score label
-        scoreLabel.center = CGPoint(x: 50, y: 50)
+        scoreLabel.center = CGPoint(x: 50, y: (bounds.size.height - 40))
+        scoreLabel.font = UIFont(name: Fonts.Main, size: 18)
         scoreLabel.textAlignment = .center
         scoreLabel.text = "Score: 0"
         self.view.addSubview(scoreLabel)
         
         // Set up the ball count label
-        ballsLabel.center = CGPoint(x: (UIScreen.main.bounds.size.width - 100), y: 50)
+        ballsLabel.center = CGPoint(x: (bounds.size.width - 100), y: (bounds.size.height - 40))
+        scoreLabel.font = UIFont(name: Fonts.Main, size: 18)
         ballsLabel.textAlignment = .center
         ballsLabel.text = "Balls Remaining: \(ballCount)"
         self.view.addSubview(ballsLabel)

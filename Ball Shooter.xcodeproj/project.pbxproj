@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		744C844824A268DB00991638 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744C844724A268DB00991638 /* Raleway-Regular.ttf */; };
+		744C844A24A268E900991638 /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744C844924A268E900991638 /* Raleway-Light.ttf */; };
+		744C844C24A2690600991638 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744C844B24A2690600991638 /* Roboto-Regular.ttf */; };
+		744C844E24A26A6900991638 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744C844D24A26A6900991638 /* Constants.swift */; };
+		744C845024A277EA00991638 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744C844F24A277EA00991638 /* StartViewController.swift */; };
 		744DDCA62496B20600AD5D95 /* GameLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DDCA52496B20600AD5D95 /* GameLoop.swift */; };
 		7464601F2481544D008598A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7464601E2481544D008598A6 /* AppDelegate.swift */; };
 		746460212481544D008598A6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 746460202481544D008598A6 /* art.scnassets */; };
@@ -22,6 +27,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		744C844724A268DB00991638 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		744C844924A268E900991638 /* Raleway-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Light.ttf"; sourceTree = "<group>"; };
+		744C844B24A2690600991638 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		744C844D24A26A6900991638 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		744C844F24A277EA00991638 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		744DDCA52496B20600AD5D95 /* GameLoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoop.swift; sourceTree = "<group>"; };
 		7464601B2481544D008598A6 /* Ball Shooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ball Shooter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7464601E2481544D008598A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +59,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		744C844424A2682100991638 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				744C844724A268DB00991638 /* Raleway-Regular.ttf */,
+				744C844924A268E900991638 /* Raleway-Light.ttf */,
+				744C844B24A2690600991638 /* Roboto-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		746460122481544D008598A6 = {
 			isa = PBXGroup;
 			children = (
@@ -71,16 +91,19 @@
 				7464601E2481544D008598A6 /* AppDelegate.swift */,
 				746460202481544D008598A6 /* art.scnassets */,
 				746460222481544D008598A6 /* ViewController.swift */,
+				744C844F24A277EA00991638 /* StartViewController.swift */,
 				74649C69248C158C00EB047C /* HoopModel.swift */,
 				74649C6B248C15C100EB047C /* Hoop.swift */,
 				74649C6D248D336000EB047C /* Ball.swift */,
 				74DB4E16249BBBB400A5866B /* changerModel.swift */,
 				74DB4E14249BA2F700A5866B /* ColorChanger.swift */,
 				744DDCA52496B20600AD5D95 /* GameLoop.swift */,
+				744C844D24A26A6900991638 /* Constants.swift */,
 				746460242481544D008598A6 /* Main.storyboard */,
 				7464602724815454008598A6 /* Assets.xcassets */,
 				7464602924815454008598A6 /* LaunchScreen.storyboard */,
 				7464602C24815454008598A6 /* Info.plist */,
+				744C844424A2682100991638 /* Fonts */,
 			);
 			path = "Ball Shooter";
 			sourceTree = "<group>";
@@ -144,7 +167,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				746460212481544D008598A6 /* art.scnassets in Resources */,
+				744C844C24A2690600991638 /* Roboto-Regular.ttf in Resources */,
+				744C844824A268DB00991638 /* Raleway-Regular.ttf in Resources */,
 				7464602B24815454008598A6 /* LaunchScreen.storyboard in Resources */,
+				744C844A24A268E900991638 /* Raleway-Light.ttf in Resources */,
 				7464602824815454008598A6 /* Assets.xcassets in Resources */,
 				746460262481544D008598A6 /* Main.storyboard in Resources */,
 			);
@@ -162,9 +188,11 @@
 				74649C6E248D336000EB047C /* Ball.swift in Sources */,
 				74DB4E15249BA2F700A5866B /* ColorChanger.swift in Sources */,
 				7464601F2481544D008598A6 /* AppDelegate.swift in Sources */,
+				744C845024A277EA00991638 /* StartViewController.swift in Sources */,
 				74649C6C248C15C100EB047C /* Hoop.swift in Sources */,
 				74DB4E17249BBBB400A5866B /* changerModel.swift in Sources */,
 				744DDCA62496B20600AD5D95 /* GameLoop.swift in Sources */,
+				744C844E24A26A6900991638 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
