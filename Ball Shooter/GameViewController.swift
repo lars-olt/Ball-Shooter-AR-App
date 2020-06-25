@@ -23,6 +23,8 @@ var ball: Ball?
 var currentColor: UIColor?
 var currentBallColor: UIColor?
 var bounds = UIScreen.main.bounds
+var gameStarted = false
+var currentLevel = 1
 
 enum BodyType: Int {
     case screen = 1
@@ -31,7 +33,7 @@ enum BodyType: Int {
     case colorChanger = 8
 }
 
-class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate {
+class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate {
     
     var gameStarted = false
     var floorUsed = false
@@ -72,11 +74,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Set up the view controller
-        let vc = UIViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true, completion: nil)
         
         // Set the view's delegate
         sceneView.delegate = self

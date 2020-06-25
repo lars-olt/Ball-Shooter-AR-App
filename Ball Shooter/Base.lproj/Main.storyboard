@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="z1J-UI-KMS">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <array key="Raleway-Light.ttf">
             <string>Raleway-Light</string>
+        </array>
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
         </array>
     </customFonts>
     <scenes>
@@ -17,26 +21,26 @@
             <objects>
                 <viewController id="z1J-UI-KMS" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8EJ-We-012">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Start_Bg" translatesAutoresizingMaskIntoConstraints="NO" id="m2v-hC-hc9">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="104" translatesAutoresizingMaskIntoConstraints="NO" id="fGO-Ao-tH6">
-                                <rect key="frame" x="74" y="347.5" width="266" height="201.5"/>
+                                <rect key="frame" x="54.666666666666657" y="305.33333333333331" width="266" height="201.66666666666669"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ball Shooter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oUP-l7-MGy">
-                                        <rect key="frame" x="0.0" y="0.0" width="266" height="56.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="266" height="56.666666666666664"/>
                                         <fontDescription key="fontDescription" name="Raleway-Light" family="Raleway" pointSize="48"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7DC-nd-Hx7">
-                                        <rect key="frame" x="0.0" y="160.5" width="266" height="41"/>
+                                        <rect key="frame" x="0.0" y="160.66666666666669" width="266" height="41"/>
                                         <state key="normal" image="Start Btn"/>
                                         <connections>
-                                            <segue destination="BV1-FR-VrT" kind="presentation" id="fau-dV-Nnm"/>
+                                            <segue destination="D54-sC-EQ6" kind="modal" animates="NO" modalPresentationStyle="fullScreen" id="YKc-Hg-pbB"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -56,25 +60,101 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iao-TP-WXs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-630.43478260869574" y="135.9375"/>
+            <point key="canvasLocation" x="-991" y="136"/>
         </scene>
-        <!--View Controller-->
+        <!--Levels View Controller-->
+        <scene sceneID="jlP-nz-uNq">
+            <objects>
+                <viewController id="D54-sC-EQ6" customClass="LevelsViewController" customModule="Ball_Shooter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UYF-V3-pmf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Main_Bg" translatesAutoresizingMaskIntoConstraints="NO" id="x3e-V5-Tto">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </imageView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZeH-gJ-M8X">
+                                <rect key="frame" x="22" y="124" width="331" height="534"/>
+                                <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3DO-W6-sfp">
+                                    <size key="itemSize" width="100" height="100"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="LevelCell" id="fXZ-ix-DzK" userLabel="LevelCell" customClass="LevelCollectionViewCell" customModule="Ball_Shooter" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="jv0-Hk-mf8">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Unlocked_Level_0" translatesAutoresizingMaskIntoConstraints="NO" id="ugf-zX-eR8" userLabel="Level View">
+                                                    <rect key="frame" x="8.6666666666666643" y="8.6666666666666643" width="83" height="83"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6FZ-RS-I6a" userLabel="Level Number">
+                                                    <rect key="frame" x="43.666666666666664" y="36" width="13" height="28"/>
+                                                    <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="24"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="ugf-zX-eR8" firstAttribute="centerX" secondItem="jv0-Hk-mf8" secondAttribute="centerX" id="4QN-cA-a54"/>
+                                                <constraint firstItem="6FZ-RS-I6a" firstAttribute="centerX" secondItem="jv0-Hk-mf8" secondAttribute="centerX" id="GJd-Mw-5CO"/>
+                                                <constraint firstItem="6FZ-RS-I6a" firstAttribute="centerY" secondItem="jv0-Hk-mf8" secondAttribute="centerY" id="ioz-Me-aJU"/>
+                                                <constraint firstItem="ugf-zX-eR8" firstAttribute="centerY" secondItem="jv0-Hk-mf8" secondAttribute="centerY" id="mke-cx-BQ7"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <size key="customSize" width="100" height="100"/>
+                                        <connections>
+                                            <outlet property="levelImage" destination="ugf-zX-eR8" id="WwY-iO-bZl"/>
+                                            <outlet property="levelNumber" destination="6FZ-RS-I6a" id="1cK-Nn-3a3"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="x3e-V5-Tto" firstAttribute="top" secondItem="UYF-V3-pmf" secondAttribute="top" id="HdI-Wb-K3c"/>
+                            <constraint firstItem="x3e-V5-Tto" firstAttribute="trailing" secondItem="z9A-11-gG6" secondAttribute="trailing" id="JiM-Wr-yPQ"/>
+                            <constraint firstItem="ZeH-gJ-M8X" firstAttribute="top" secondItem="z9A-11-gG6" secondAttribute="top" constant="80" id="Jw0-1m-7y6"/>
+                            <constraint firstItem="x3e-V5-Tto" firstAttribute="leading" secondItem="z9A-11-gG6" secondAttribute="leading" id="YOy-kH-FBX"/>
+                            <constraint firstItem="z9A-11-gG6" firstAttribute="bottom" secondItem="ZeH-gJ-M8X" secondAttribute="bottom" constant="120" id="bdf-Nh-kcy"/>
+                            <constraint firstItem="ZeH-gJ-M8X" firstAttribute="leading" secondItem="z9A-11-gG6" secondAttribute="leading" constant="22" id="pda-KF-GAu"/>
+                            <constraint firstItem="z9A-11-gG6" firstAttribute="trailing" secondItem="ZeH-gJ-M8X" secondAttribute="trailing" constant="22" id="pnG-3n-0fi"/>
+                            <constraint firstAttribute="bottom" secondItem="x3e-V5-Tto" secondAttribute="bottom" id="vpP-6U-hWq"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="z9A-11-gG6"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DYS-14-p2q"/>
+                    <connections>
+                        <outlet property="collectionView" destination="ZeH-gJ-M8X" id="egb-0o-s1i"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bck-Cp-wfc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-255.07246376811597" y="135.9375"/>
+        </scene>
+        <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController id="BV1-FR-VrT" customClass="ViewController" customModule="Ball_Shooter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BV1-FR-VrT" customClass="GameViewController" customModule="Ball_Shooter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U0K-SW-4ec">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BrB-h1-WRS">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="778"/>
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="Ado-hd-tve" appends="YES" id="8IM-kC-5tR"/>
                                 </connections>
                             </arscnView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bottom_Banner" translatesAutoresizingMaskIntoConstraints="NO" id="o4M-xJ-FfY">
-                                <rect key="frame" x="0.0" y="772" width="414" height="70"/>
+                                <rect key="frame" x="0.0" y="742" width="375" height="70"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="PM0-hn-fFl"/>
                                 </constraints>
@@ -103,12 +183,14 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="135.9375"/>
+            <point key="canvasLocation" x="516" y="135"/>
         </scene>
     </scenes>
     <resources>
         <image name="Bottom_Banner" width="375" height="100"/>
+        <image name="Main_Bg" width="375" height="812"/>
         <image name="Start Btn" width="182" height="41"/>
         <image name="Start_Bg" width="375" height="812"/>
+        <image name="Unlocked_Level_0" width="83" height="83"/>
     </resources>
 </document>
