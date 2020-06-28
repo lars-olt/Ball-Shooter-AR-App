@@ -15,6 +15,7 @@ var leftSide = true
 var count = 0
 var hoopArray = [Hoop]()
 var position: SCNVector3?
+var objectSpeed: Int?
 
 func createHoop(sceneView: ARSCNView, result: ARHitTestResult) {
     
@@ -41,8 +42,8 @@ func createHoop(sceneView: ARSCNView, result: ARHitTestResult) {
     sceneView.scene.rootNode.addChildNode(newHoop)
     sceneView.scene.rootNode.addChildNode(newScreen)
     
-    newHoop.runAction(SCNAction.move(by: SCNVector3(0, 0, 40), duration: 5))
-    newScreen.runAction(SCNAction.move(by: SCNVector3(0, 0, 40), duration: 5))
+    newHoop.runAction(SCNAction.move(by: SCNVector3(0, 0, 40), duration: TimeInterval(objectSpeed!)))
+    newScreen.runAction(SCNAction.move(by: SCNVector3(0, 0, 40), duration: TimeInterval(objectSpeed!)))
     
     hoopArray.append(hoop)
     

@@ -10,21 +10,8 @@ import UIKit
 import SceneKit
 import ARKit
 
-var start: DispatchTime?
-var displayLink: CADisplayLink!
-var score = 0
-var touchResult: ARHitTestResult?
 var cameraRotation: Float?
-let scoreLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 80, height: 21))
-let ballsLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 150, height: 21))
-var hoopCount = 10
-var ballCount = 15
-var ball: Ball?
-var currentColor: UIColor?
-var currentBallColor: UIColor?
-var bounds = UIScreen.main.bounds
 var gameStarted = false
-var currentLevel = 1
 
 enum BodyType: Int {
     case screen = 1
@@ -35,11 +22,34 @@ enum BodyType: Int {
 
 class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate {
     
-    var gameStarted = false
+    // Declirations to assign the level
+    var currentGameLevel: newLevel!
+    var ballCount: Int!
+    var hoopCount: Int!
+    var hoopInterval: Int!
+    var changerInterval: Int!
+    var oneStarScore: Int!
+    var twoStarScore: Int!
+    var threeStarScore: Int!
+    
+    
     var floorUsed = false
     var loop: GameLoop?
+    var start: DispatchTime?
+    var displayLink: CADisplayLink!
+    var score = 0
+    var touchResult: ARHitTestResult?
+    var ball: Ball?
+    var currentColor: UIColor?
+    var currentBallColor: UIColor?
+    var bounds = UIScreen.main.bounds
+    var currentLevel = 1
+    let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+    var didWin = false
 
     @IBOutlet var sceneView: ARSCNView!
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var ballsRemainingLabel: UILabel!
     
     func randomColor() -> UIColor {
         return UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1.0)
@@ -49,10 +59,39 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         
         if gameStarted == true {
             let time = getTime()
-            if (time % 5 == 0 && hoopCount != 0 && ballCount != 0 && currentColor == currentBallColor) {
+            
+            if (hoopCount == 0 && score == threeStarScore || ballCount == 0 && score == threeStarScore) {
+                // Three stars
+                // Player gets all 3 stars
+                
+                didWin = true
+                
+                self.performSegue(withIdentifier: "displayResults", sender: self)
+                
+            }
+            else if (hoopCount == 0 && score < twoStarScore || ballCount == 0 && score < twoStarScore) {
+                // Two stars
+                // Player has passed the level
+                
+                didWin = true
+                
+                self.performSegue(withIdentifier: "displayResults", sender: self)
+                
+            }
+            else if (hoopCount == 0 && score < oneStarScore || ballCount == 0 && score < oneStarScore){
+                // One star
+                // Player did not pass the level
+                
+                didWin = false
+                
+                self.performSegue(withIdentifier: "displayResults", sender: self)
+                
+            }
+            
+            else if (time % hoopInterval == 0 && hoopCount != 0 && ballCount != 0 && currentColor == currentBallColor) {
                 
                 // Add a color changer to the screen
-                if time % 7 == 0 {
+                if time % changerInterval == 0 {
                     
                     currentColor = randomColor()
                     createChanger(sceneView: sceneView, result: touchResult!, color: currentColor!)
@@ -68,6 +107,16 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 }
                 
             }
+            else if (time % changerInterval == objectSpeed && currentColor != currentBallColor)  {
+                
+                // Player did not pass the level
+                
+                didWin = false
+                
+                self.performSegue(withIdentifier: "displayResults", sender: self)
+                
+            }
+            
         }
         
     }
@@ -86,18 +135,10 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         sceneView.scene.physicsWorld.contactDelegate = self
         
         // Set up the score label
-        scoreLabel.center = CGPoint(x: 50, y: (bounds.size.height - 40))
-        scoreLabel.font = UIFont(name: Fonts.Main, size: 18)
-        scoreLabel.textAlignment = .center
-        scoreLabel.text = "Score: 0"
-        self.view.addSubview(scoreLabel)
+        scoreLabel.text = "Score: \(score)"
         
         // Set up the ball count label
-        ballsLabel.center = CGPoint(x: (bounds.size.width - 100), y: (bounds.size.height - 40))
-        scoreLabel.font = UIFont(name: Fonts.Main, size: 18)
-        ballsLabel.textAlignment = .center
-        ballsLabel.text = "Balls Remaining: \(ballCount)"
-        self.view.addSubview(ballsLabel)
+        ballsRemainingLabel.text = "Balls Remaining: \(ballCount!)"
         
     }
     
@@ -120,11 +161,9 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                         
                         contact.nodeA.geometry?.firstMaterial?.diffuse.contents = UIColor .green
                         
-                        score += 1
-                        
+                        score += 600
                         DispatchQueue.main.async {
-                            // Update the scoreLabel
-                            scoreLabel.text = "Score: \(score)"
+                            self.scoreLabel.text = "Score: \(self.score)"
                         }
                     }
                     
@@ -255,14 +294,11 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             
             // Shoot a ball if player still has balls
             if (ballCount != 0) {
-                DispatchQueue.main.async {
-                    ballCount -= 1
-                    ballsLabel.text = "Balls Remaining: \(ballCount)"
-                    ballColor = currentBallColor!
-                    ball?.throwBall()
-                }
+                ballCount -= 1
+                ballsRemainingLabel.text = "Balls Remaining: \(ballCount!)"
+                ballColor = currentBallColor!
+                ball?.throwBall()
             }
-            
         }
     }
     
@@ -299,6 +335,27 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             node.opacity = 0.5
             node.name = "floor"
             return node
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "displayResults" {
+            
+            guard let resultsViewController = segue.destination as? ResultsViewController else { return }
+            
+            resultsViewController.currentLevel = currentGameLevel
+            resultsViewController.score = score
+            resultsViewController.passedTargetScore = currentGameLevel.threeStarsScore
+            
+            if (didWin) {
+                resultsViewController.message = Message.win
+                resultsViewController.nextLevelBtnOn = true
+            }
+            else {
+                resultsViewController.message = Message.loose
+                resultsViewController.nextLevelBtnOn = false
+            }
+        }
     }
     
 

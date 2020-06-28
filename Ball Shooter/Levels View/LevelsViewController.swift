@@ -12,8 +12,10 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var currentLevel: newLevel?
     var model = LevelModel()
     var levelArray = [Level]()
+    var level: Level?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,21 +53,43 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         //let cell = collectionView.cellForItem(at: indexPath) as! LevelCollectionViewCell
-        let level = levelArray[indexPath.row]
+        level = levelArray[indexPath.row]
         
-        if level.isUnlocked {
+        if level!.isUnlocked {
             
             // Perform a modal segue to the game view
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            self.performSegue(withIdentifier: "beginGame", sender: self)
             
-            guard let gameViewController = mainStoryboard.instantiateViewController(withIdentifier: "GameViewController") as? GameViewController else {
-                    print("Couldn't find the view controller")
-                    return
+        }
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if (segue.identifier == "beginGame") {
+            
+            guard let gameViewController = segue.destination as? GameViewController else {return}
+            
+            switch level!.levelNumber {
+                
+            case 1:
+                currentLevel = level1
+            default:
+                print("Level could not be found")
+                
             }
             
-            gameViewController.modalPresentationStyle = .fullScreen
             
-            present(gameViewController, animated: false, completion: nil)
+            // Initilize the game for the current level
+            gameViewController.currentGameLevel = currentLevel
+            gameViewController.ballCount = currentLevel?.ballCount
+            gameViewController.hoopCount = currentLevel?.hoopCount
+            gameViewController.hoopInterval = currentLevel?.hoopInterval
+            gameViewController.changerInterval = currentLevel?.changerInterval
+            objectSpeed = currentLevel?.objectSpeed
+            gameViewController.oneStarScore = currentLevel?.oneStarScore
+            gameViewController.twoStarScore = currentLevel?.twoStarsScore
+            gameViewController.threeStarScore = currentLevel?.threeStarsScore
             
         }
         
