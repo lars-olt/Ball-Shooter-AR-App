@@ -38,6 +38,6 @@ struct FinalStars {
     static let star_3 = "Star_Count_3"
 }
 
-struct TargetScores {
-    static let level1 = 12_000
+struct TargetScore {
+    static let noStars = 1_200
 }

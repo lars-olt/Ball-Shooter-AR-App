@@ -23,7 +23,7 @@ enum BodyType: Int {
 class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContactDelegate {
     
     // Declirations to assign the level
-    var currentGameLevel: newLevel!
+    var currentLevel: newLevel!
     var ballCount: Int!
     var hoopCount: Int!
     var hoopInterval: Int!
@@ -31,6 +31,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
     var oneStarScore: Int!
     var twoStarScore: Int!
     var threeStarScore: Int!
+    var currentLevelNumber: Int!
     
     
     var floorUsed = false
@@ -43,7 +44,6 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
     var currentColor: UIColor?
     var currentBallColor: UIColor?
     var bounds = UIScreen.main.bounds
-    var currentLevel = 1
     let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     var didWin = false
 
@@ -52,23 +52,25 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
     @IBOutlet weak var ballsRemainingLabel: UILabel!
     
     func randomColor() -> UIColor {
-        return UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1.0)
+        return UIColor(red: CGFloat(drand48()), green: CGFloat(.random(in: 0...0.5)), blue: CGFloat(drand48()), alpha: 1.0)
     }
     
     @objc func runHoops() { // Game loop
         
         if gameStarted == true {
+            
             let time = getTime()
             
-            if (hoopCount == 0 && score == threeStarScore || ballCount == 0 && score == threeStarScore) {
-                // Three stars
-                // Player gets all 3 stars
+            if (hoopCount == 0 && score < oneStarScore || ballCount == 0 && score < oneStarScore){
+                // One star
+                // Player did not pass the level
                 
-                didWin = true
+                didWin = false
                 
                 self.performSegue(withIdentifier: "displayResults", sender: self)
                 
             }
+                
             else if (hoopCount == 0 && score < twoStarScore || ballCount == 0 && score < twoStarScore) {
                 // Two stars
                 // Player has passed the level
@@ -78,20 +80,34 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 self.performSegue(withIdentifier: "displayResults", sender: self)
                 
             }
-            else if (hoopCount == 0 && score < oneStarScore || ballCount == 0 && score < oneStarScore){
-                // One star
-                // Player did not pass the level
                 
-                didWin = false
+            else if (hoopCount == 0 && score == threeStarScore || ballCount == 0 && score == threeStarScore) {
+                // Three stars
+                // Player gets all 3 stars
+                
+                didWin = true
                 
                 self.performSegue(withIdentifier: "displayResults", sender: self)
                 
             }
             
+            else if (time % changerInterval == objectSpeed && currentColor != currentBallColor)  {
+                
+                // Player did not pass the level
+                if score > oneStarScore {
+                    didWin = false
+                }
+                else {
+                    didWin = true
+                }
+                
+                self.performSegue(withIdentifier: "displayResults", sender: self)
+                
+            }
             else if (time % hoopInterval == 0 && hoopCount != 0 && ballCount != 0 && currentColor == currentBallColor) {
                 
                 // Add a color changer to the screen
-                if time % changerInterval == 0 {
+                if time % changerInterval == 0 && time != 0 {
                     
                     currentColor = randomColor()
                     createChanger(sceneView: sceneView, result: touchResult!, color: currentColor!)
@@ -107,15 +123,6 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 }
                 
             }
-            else if (time % changerInterval == objectSpeed && currentColor != currentBallColor)  {
-                
-                // Player did not pass the level
-                
-                didWin = false
-                
-                self.performSegue(withIdentifier: "displayResults", sender: self)
-                
-            }
             
         }
         
@@ -123,6 +130,8 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        currentColor = UIColor .cyan
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -260,6 +269,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 
                 // Set starting colors
                 currentColor = UIColor .cyan
+                screenColor = currentColor!
                 currentBallColor = currentColor
                 
                 // Begin keeping track of time
@@ -341,11 +351,16 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         
         if segue.identifier == "displayResults" {
             
+            loop?.stop()
+            
             guard let resultsViewController = segue.destination as? ResultsViewController else { return }
             
-            resultsViewController.currentLevel = currentGameLevel
+            resultsViewController.currentLevelNumber = currentLevelNumber
+            resultsViewController.currentLevel = currentLevel
             resultsViewController.score = score
-            resultsViewController.passedTargetScore = currentGameLevel.threeStarsScore
+            resultsViewController.passedTargetScore = currentLevel.threeStarsScore
+            
+            print("Did win: \(didWin)")
             
             if (didWin) {
                 resultsViewController.message = Message.win

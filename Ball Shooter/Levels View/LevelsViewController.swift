@@ -8,6 +8,9 @@
 
 import UIKit
 
+var unlockedLevels = [1]
+var levelsStarCount: [Int: Int] = [:]
+
 class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -17,8 +20,14 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
     var levelArray = [Level]()
     var level: Level?
     
+    var passedLevelNumber: Int?
+    var passedStarCount: Int?
+    var nextLevelNumber: Int?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        createLevels()
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -39,10 +48,23 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
         // Initilizes the level
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LevelCell", for: indexPath) as! LevelCollectionViewCell
         let level = levelArray[indexPath.row]
-        
+         
         // Sets up the state
-        if (indexPath.row + 1 == 1 && !gameStarted) {
+        if (level.levelNumber == nextLevelNumber || unlockedLevels.contains(level.levelNumber)) {
+            unlockedLevels.append(level.levelNumber)
             level.isUnlocked = true
+        }
+        
+        // Set the update the starcount
+        if (levelsStarCount.count != 0 && levelsStarCount[level.levelNumber] != nil) {
+            level.stars = levelsStarCount[level.levelNumber]!
+        }
+        
+        // Update the star count and store those values
+        if (level.levelNumber == passedLevelNumber) {
+            // Get the star count if the user beat the level
+            level.stars = passedStarCount!
+            levelsStarCount[level.levelNumber] = passedStarCount!
         }
         
         cell.setLevel(level)
@@ -70,18 +92,11 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
             
             guard let gameViewController = segue.destination as? GameViewController else {return}
             
-            switch level!.levelNumber {
-                
-            case 1:
-                currentLevel = level1
-            default:
-                print("Level could not be found")
-                
-            }
-            
+            currentLevel = levels[level!.levelNumber]
             
             // Initilize the game for the current level
-            gameViewController.currentGameLevel = currentLevel
+            gameViewController.currentLevel = currentLevel
+            gameViewController.currentLevelNumber = level!.levelNumber
             gameViewController.ballCount = currentLevel?.ballCount
             gameViewController.hoopCount = currentLevel?.hoopCount
             gameViewController.hoopInterval = currentLevel?.hoopInterval
@@ -91,6 +106,7 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
             gameViewController.twoStarScore = currentLevel?.twoStarsScore
             gameViewController.threeStarScore = currentLevel?.threeStarsScore
             
+            gameStarted = false
         }
         
     }

@@ -23,7 +23,6 @@
 		746460232481544D008598A6 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746460222481544D008598A6 /* GameViewController.swift */; };
 		746460262481544D008598A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 746460242481544D008598A6 /* Main.storyboard */; };
 		7464602824815454008598A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7464602724815454008598A6 /* Assets.xcassets */; };
-		7464602B24815454008598A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7464602924815454008598A6 /* LaunchScreen.storyboard */; };
 		74649C6A248C158C00EB047C /* HoopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74649C69248C158C00EB047C /* HoopModel.swift */; };
 		74649C6C248C15C100EB047C /* Hoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74649C6B248C15C100EB047C /* Hoop.swift */; };
 		74649C6E248D336000EB047C /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74649C6D248D336000EB047C /* Ball.swift */; };
@@ -49,7 +48,6 @@
 		746460222481544D008598A6 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		746460252481544D008598A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7464602724815454008598A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7464602A24815454008598A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7464602C24815454008598A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74649C69248C158C00EB047C /* HoopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoopModel.swift; sourceTree = "<group>"; };
 		74649C6B248C15C100EB047C /* Hoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoop.swift; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 				744C844D24A26A6900991638 /* Constants.swift */,
 				746460242481544D008598A6 /* Main.storyboard */,
 				7464602724815454008598A6 /* Assets.xcassets */,
-				7464602924815454008598A6 /* LaunchScreen.storyboard */,
 				7464602C24815454008598A6 /* Info.plist */,
 				744C844424A2682100991638 /* Fonts */,
 			);
@@ -208,7 +205,6 @@
 				746460212481544D008598A6 /* art.scnassets in Resources */,
 				744C844C24A2690600991638 /* Roboto-Regular.ttf in Resources */,
 				744C844824A268DB00991638 /* Raleway-Regular.ttf in Resources */,
-				7464602B24815454008598A6 /* LaunchScreen.storyboard in Resources */,
 				744C844A24A268E900991638 /* Raleway-Light.ttf in Resources */,
 				7464602824815454008598A6 /* Assets.xcassets in Resources */,
 				746460262481544D008598A6 /* Main.storyboard in Resources */,
@@ -249,14 +245,6 @@
 				746460252481544D008598A6 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		7464602924815454008598A6 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7464602A24815454008598A6 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
