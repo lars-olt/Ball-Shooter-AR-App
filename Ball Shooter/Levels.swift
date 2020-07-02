@@ -8,6 +8,9 @@
 
 import Foundation
 
+// Keeps track of all of the levels in the game
+var levels = [newLevel]()
+
 struct newLevel {
     
     var ballCount: Int
@@ -21,15 +24,26 @@ struct newLevel {
     
 }
 
-
-// Level 1
-let level1 = newLevel(
-    ballCount: 15,
-    hoopCount: 20,
-    hoopInterval: 5,
-    changerInterval: 7,
-    objectSpeed: 5,
-    oneStarScore: 5_000,
-    twoStarsScore: 10_000,
-    threeStarsScore: 10_000
-)
+func createLevels() {
+    
+    for i in 0...14 {
+        
+        var change = 0
+        
+        if (i % 3 == 0) {
+            change += 1
+        }
+        
+        levels.append( newLevel(
+        ballCount: 30 + i,
+        hoopCount: 20 + i,
+        hoopInterval: 7 - change, // NOTE: - Must be different from the changerInterval
+        changerInterval: 9,
+        objectSpeed: 6 - change,
+        oneStarScore: 5_000,
+        twoStarsScore: 12_000,
+        threeStarsScore: 12_000
+        ))
+    }
+    
+}
