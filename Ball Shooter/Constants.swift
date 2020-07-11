@@ -24,6 +24,9 @@ struct Images {
     
     static let nextLevelBtnOn = "Next_Level_Btn_on"
     static let nextLevelBtnOff = "Next_Level_Btn_off"
+    
+    static let finishBtn = "Finish_Btn"
+    static let nextBtn = "Next_Btn"
 }
 
 struct Message {
@@ -40,4 +43,10 @@ struct FinalStars {
 
 struct TargetScore {
     static let noStars = 1_200
+}
+
+struct Keys {
+    static let played = "playedBefore"
+    static let levelsStarCount = "savedLevelsStarCount"
+    static let unlockedLevels = "savedUnlockedLevels"
 }

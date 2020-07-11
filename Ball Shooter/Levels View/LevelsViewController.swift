@@ -9,7 +9,7 @@
 import UIKit
 
 var unlockedLevels = [1]
-var levelsStarCount: [Int: Int] = [:]
+var levelsStarCount: [Int] = []
 
 class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -20,9 +20,13 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
     var levelArray = [Level]()
     var level: Level?
     
+    let defaults = UserDefaults.standard
     var passedLevelNumber: Int?
     var passedStarCount: Int?
     var nextLevelNumber: Int?
+    var didPassLevels = false
+    var passedUnlockedLevels: [Int]?
+    var passedLevelsStarCount: [Int]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +38,23 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         levelArray = model.getLevels()
         
-        // Do any additional setup after loading the view.
+        // Fill levels star count
+        if (levelsStarCount.count == 0) {
+            for _ in 1...15 {
+                levelsStarCount.append(0)
+            }
+        }
+        
+        print("Levels star count: \(levelsStarCount)")
+        
+        passedUnlockedLevels = defaults.array(forKey: Keys.unlockedLevels) as? [Int] ?? nil
+        passedLevelsStarCount = defaults.array(forKey: Keys.levelsStarCount) as? [Int] ?? nil
+        
+        if (passedUnlockedLevels != nil && passedLevelsStarCount != nil) {
+            didPassLevels = true
+            print("passed levels star count: \(passedLevelsStarCount!)")
+        }
+        
     }
     
     // MARK: - Collection View
@@ -45,26 +65,42 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        if didPassLevels {
+            unlockedLevels = passedUnlockedLevels!
+            levelsStarCount = passedLevelsStarCount!
+        }
+        
         // Initilizes the level
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LevelCell", for: indexPath) as! LevelCollectionViewCell
         let level = levelArray[indexPath.row]
-         
+        
         // Sets up the state
-        if (level.levelNumber == nextLevelNumber || unlockedLevels.contains(level.levelNumber)) {
-            unlockedLevels.append(level.levelNumber)
+        if (level.levelNumber == nextLevelNumber || unlockedLevels.contains(level.levelNumber) || ((passedUnlockedLevels?.contains(level.levelNumber)) != nil)) {
+            
+            if (didPassLevels == false) {
+                unlockedLevels.append(level.levelNumber)
+            }
+            
             level.isUnlocked = true
+            
         }
         
         // Set the update the starcount
-        if (levelsStarCount.count != 0 && levelsStarCount[level.levelNumber] != nil) {
-            level.stars = levelsStarCount[level.levelNumber]!
+        if (levelsStarCount[level.levelNumber - 1] != 0) {
+            level.stars = levelsStarCount[level.levelNumber - 1]
         }
         
-        // Update the star count and store those values
+        // Unlock the next level based on levels passed
+        if (passedUnlockedLevels?.contains(level.levelNumber) ?? false && level.stars > 1) {
+            let nextLevel = levelArray[indexPath.row + 1]
+            nextLevel.isUnlocked = true
+        }
+        
+        // Update the star count for passed values
         if (level.levelNumber == passedLevelNumber) {
             // Get the star count if the user beat the level
             level.stars = passedStarCount!
-            levelsStarCount[level.levelNumber] = passedStarCount!
+            levelsStarCount[level.levelNumber - 1] = passedStarCount!
         }
         
         cell.setLevel(level)
@@ -90,6 +126,7 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         if (segue.identifier == "beginGame") {
             
+            // Set up the game view with the choosen level
             guard let gameViewController = segue.destination as? GameViewController else {return}
             
             currentLevel = levels[level!.levelNumber]

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7448EBB224AE52980066A95B /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7448EBB124AE52980066A95B /* StartViewController.swift */; };
+		7448EBB424AE55860066A95B /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7448EBB324AE55860066A95B /* OnboardingViewController.swift */; };
 		744C844824A268DB00991638 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744C844724A268DB00991638 /* Raleway-Regular.ttf */; };
 		744C844A24A268E900991638 /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744C844924A268E900991638 /* Raleway-Light.ttf */; };
 		744C844C24A2690600991638 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744C844B24A2690600991638 /* Roboto-Regular.ttf */; };
@@ -31,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7448EBB124AE52980066A95B /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		7448EBB324AE55860066A95B /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		744C844724A268DB00991638 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		744C844924A268E900991638 /* Raleway-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Light.ttf"; sourceTree = "<group>"; };
 		744C844B24A2690600991638 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
@@ -67,6 +71,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7448EBB024AE52690066A95B /* Startup */ = {
+			isa = PBXGroup;
+			children = (
+				7448EBB124AE52980066A95B /* StartViewController.swift */,
+				7448EBB324AE55860066A95B /* OnboardingViewController.swift */,
+			);
+			path = Startup;
+			sourceTree = "<group>";
+		};
 		744C844424A2682100991638 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +144,7 @@
 			children = (
 				7464601E2481544D008598A6 /* AppDelegate.swift */,
 				746460202481544D008598A6 /* art.scnassets */,
+				7448EBB024AE52690066A95B /* Startup */,
 				744C845D24A5376F00991638 /* Levels View */,
 				744C845C24A528C900991638 /* Game View */,
 				744C845E24A538E200991638 /* Results View */,
@@ -225,9 +239,11 @@
 				744C845824A3BC1700991638 /* LevelCollectionViewCell.swift in Sources */,
 				744C845624A3B72900991638 /* LevelsViewController.swift in Sources */,
 				74DB4E15249BA2F700A5866B /* ColorChanger.swift in Sources */,
+				7448EBB424AE55860066A95B /* OnboardingViewController.swift in Sources */,
 				744C846124A7DCBA00991638 /* Levels.swift in Sources */,
 				7464601F2481544D008598A6 /* AppDelegate.swift in Sources */,
 				74649C6C248C15C100EB047C /* Hoop.swift in Sources */,
+				7448EBB224AE52980066A95B /* StartViewController.swift in Sources */,
 				74DB4E17249BBBB400A5866B /* changerModel.swift in Sources */,
 				744DDCA62496B20600AD5D95 /* GameLoop.swift in Sources */,
 				744C845424A3AA1900991638 /* LevelModel.swift in Sources */,

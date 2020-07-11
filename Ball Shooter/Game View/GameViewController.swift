@@ -363,12 +363,9 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             print("Did win: \(didWin)")
             
             if (didWin) {
-                resultsViewController.message = Message.win
-                resultsViewController.nextLevelBtnOn = true
-            }
+                resultsViewController.message = Message.win            }
             else {
                 resultsViewController.message = Message.loose
-                resultsViewController.nextLevelBtnOn = false
             }
         }
     }

@@ -21,7 +21,6 @@ class ResultsViewController: UIViewController {
     var score: Int!
     var passedTargetScore: Int!
     var message: String!
-    var nextLevelBtnOn = false
     var currentLevel: newLevel!
     var currentLevelNumber: Int!
     
@@ -57,9 +56,10 @@ class ResultsViewController: UIViewController {
         
         textDisplayed.text = message
         scoreDisplayed.text = "Score: \(String(score))"
-        targetScore.text = "Score to Best: \(String(passedTargetScore))"
+        targetScore.text = "Score to Beat: \(String(passedTargetScore))"
         
-        if (nextLevelBtnOn) {
+        // Set the next level btn
+        if levelStarCount! >= 2 {
             nextLevelBtn.setBackgroundImage(UIImage(named: Images.nextLevelBtnOn), for: UIControl.State.normal)
         }
         else {
@@ -71,8 +71,8 @@ class ResultsViewController: UIViewController {
     @IBAction func nextLevelBtnPressed(_ sender: Any) {
         
         if (levelStarCount! > 1) {
-            // Switch levels
             
+            // Switch levels
             guard let gameViewController = storyboard?.instantiateViewController(withIdentifier: "GameViewController") as? GameViewController else { return }
             
             // Initilize the game for the next level
@@ -96,16 +96,9 @@ class ResultsViewController: UIViewController {
                 // Set up the level for the levels view
                 unlockedLevels.append(currentLevelNumber)
                 
-                if let pastLevelStarCount = levelsStarCount[currentLevelNumber] {
-                    
-                    if pastLevelStarCount < levelStarCount! {
-                        levelsStarCount[currentLevelNumber] = levelStarCount
-                    }
-                    
-                }
-                else {
-                    levelsStarCount[currentLevelNumber] = levelStarCount
-                }
+                levelsStarCount[currentLevelNumber - 1] = levelStarCount!
+                
+                saveDefaults()
                 
                 // Perform the segue
                 gameViewController.modalPresentationStyle = .fullScreen
@@ -134,16 +127,9 @@ class ResultsViewController: UIViewController {
         // Set up the level for the levels view
         unlockedLevels.append(currentLevelNumber)
         
-        if let pastLevelStarCount = levelsStarCount[currentLevelNumber] {
-            
-            if pastLevelStarCount < levelStarCount! {
-                levelsStarCount[currentLevelNumber] = levelStarCount
-            }
-            
-        }
-        else {
-            levelsStarCount[currentLevelNumber] = levelStarCount
-        }
+        levelsStarCount[currentLevelNumber - 1] = levelStarCount!
+        
+        saveDefaults()
         
         levelsViewController.modalPresentationStyle = .fullScreen
         present(levelsViewController, animated: false, completion: nil)
@@ -171,20 +157,18 @@ class ResultsViewController: UIViewController {
         
         // Set up the level for the levels view
         
-        if let pastLevelStarCount = levelsStarCount[currentLevelNumber] {
-            
-            if pastLevelStarCount < levelStarCount! {
-                levelsStarCount[currentLevelNumber] = levelStarCount
-            }
-            
-        }
-        else {
-            levelsStarCount[currentLevelNumber] = levelStarCount
-        }
+        levelsStarCount[currentLevelNumber] = levelStarCount!
+        
+        saveDefaults()
         
         gameViewController.modalPresentationStyle = .fullScreen
         present(gameViewController, animated: false, completion: nil)
         
+    }
+    
+    func saveDefaults() {
+        defaults.setValue(unlockedLevels, forKey: Keys.unlockedLevels)
+        defaults.setValue(levelsStarCount, forKey: Keys.levelsStarCount)
     }
     
     /*
