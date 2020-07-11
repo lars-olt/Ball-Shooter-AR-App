@@ -81,7 +81,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 
             }
                 
-            else if (hoopCount == 0 && score == threeStarScore || ballCount == 0 && score == threeStarScore) {
+            else if (score == threeStarScore) {
                 // Three stars
                 // Player gets all 3 stars
                 

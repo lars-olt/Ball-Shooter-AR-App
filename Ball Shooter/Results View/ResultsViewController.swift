@@ -93,8 +93,9 @@ class ResultsViewController: UIViewController {
                 
                 gameStarted = false
                 
-                // Set up the level for the levels view
+                // Set up the levels view
                 unlockedLevels.append(currentLevelNumber)
+                unlockedLevels.append(currentLevelNumber + 1)
                 
                 levelsStarCount[currentLevelNumber - 1] = levelStarCount!
                 
@@ -126,6 +127,7 @@ class ResultsViewController: UIViewController {
         
         // Set up the level for the levels view
         unlockedLevels.append(currentLevelNumber)
+        unlockedLevels.append(currentLevelNumber + 1)
         
         levelsStarCount[currentLevelNumber - 1] = levelStarCount!
         

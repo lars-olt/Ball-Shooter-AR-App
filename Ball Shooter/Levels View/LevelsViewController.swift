@@ -74,24 +74,27 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LevelCell", for: indexPath) as! LevelCollectionViewCell
         let level = levelArray[indexPath.row]
         
-        // Sets up the state
-        if (level.levelNumber == nextLevelNumber || unlockedLevels.contains(level.levelNumber) || ((passedUnlockedLevels?.contains(level.levelNumber)) != nil)) {
+        // Update unlocked levels
+        if (level.levelNumber == nextLevelNumber || passedUnlockedLevels != nil && passedUnlockedLevels!.contains(level.levelNumber)) {
             
-            if (didPassLevels == false) {
-                unlockedLevels.append(level.levelNumber)
-            }
+            unlockedLevels.append(level.levelNumber)
             
-            level.isUnlocked = true
-            
+        } else {
+            level.isUnlocked = false
         }
         
-        // Set the update the starcount
+        // Unlocked the unlocked levels
+        if (unlockedLevels.contains(level.levelNumber)) {
+            level.isUnlocked = true
+        }
+        
+        // Set and update the starcount
         if (levelsStarCount[level.levelNumber - 1] != 0) {
             level.stars = levelsStarCount[level.levelNumber - 1]
         }
         
         // Unlock the next level based on levels passed
-        if (passedUnlockedLevels?.contains(level.levelNumber) ?? false && level.stars > 1) {
+        if (passedUnlockedLevels?.contains(level.levelNumber) ?? false && level.stars > 0) {
             let nextLevel = levelArray[indexPath.row + 1]
             nextLevel.isUnlocked = true
         }
