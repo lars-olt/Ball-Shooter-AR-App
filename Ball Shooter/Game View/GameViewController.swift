@@ -12,6 +12,8 @@ import ARKit
 
 var cameraRotation: Float?
 var gameStarted = false
+var scene: ARSCNView?
+var runWithoutSetup = false
 
 enum BodyType: Int {
     case screen = 1
@@ -33,7 +35,6 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
     var threeStarScore: Int!
     var currentLevelNumber: Int!
     
-    
     var floorUsed = false
     var loop: GameLoop?
     var start: DispatchTime?
@@ -46,13 +47,92 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
     var bounds = UIScreen.main.bounds
     let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     var didWin = false
-
+    
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var ballsRemainingLabel: UILabel!
+    @IBOutlet weak var gamePausedGraphic: UIImageView!
+    @IBOutlet weak var gamePausedText: UILabel!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        currentColor = UIColor .cyan
+        
+        if !runWithoutSetup {
+            gamePausedGraphic.isHidden = true
+            
+            // Set the view's delegate
+            sceneView.delegate = self
+            
+            // Show statistics such as fps and timing information
+            sceneView.showsStatistics = true
+            sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+            sceneView.scene.physicsWorld.contactDelegate = self
+        }
+        
+        // Fill levels star count
+        if (levelsStarCount.count == 0) {
+            for _ in 1...15 {
+                levelsStarCount.append(0)
+            }
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        gamePausedGraphic.isHidden = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Init the game to be restarted
+        if initText {
+            
+            // Init values
+            score = 0
+            ballCount = currentLevel.ballCount
+            currentColor = UIColor .cyan
+            currentBallColor = currentColor
+            
+            sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
+                if node.name == "Visibleball" {
+                    node.removeFromParentNode()
+                }
+            }
+            
+            // Display the values
+            scoreLabel.text = "Score: \(score)"
+            ballsRemainingLabel.text = "Ball Count: \(ballCount!)"
+            initText = false
+        }
+        
+        // Set the pause screen text
+        if passedText != "" {
+            gamePausedText.text = passedText
+            passedText = ""
+        }
+        else {
+            gamePausedText.text = ""
+        }
+        
+        // Create a session configuration
+        let configuration = ARWorldTrackingConfiguration()
+        
+        configuration.planeDetection = [.horizontal]
+        
+        // Run the view's session
+        sceneView.session.run(configuration)
+        
+    }
     
     func randomColor() -> UIColor {
         return UIColor(red: CGFloat(drand48()), green: CGFloat(.random(in: 0...0.5)), blue: CGFloat(drand48()), alpha: 1.0)
+    }
+    
+    func resumeLoop() {
+        loop?.updater.isPaused = false
+        sceneView = scene!
     }
     
     @objc func runHoops() { // Game loop
@@ -70,7 +150,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 self.performSegue(withIdentifier: "displayResults", sender: self)
                 
             }
-                
+            
             else if (hoopCount == 0 && score < twoStarScore || ballCount == 0 && score < twoStarScore) {
                 // Two stars
                 // Player has passed the level
@@ -80,7 +160,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 self.performSegue(withIdentifier: "displayResults", sender: self)
                 
             }
-                
+            
             else if (score == threeStarScore) {
                 // Three stars
                 // Player gets all 3 stars
@@ -128,27 +208,12 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @IBAction func pauseBtnPressed(_ sender: Any) {
         
-        currentColor = UIColor .cyan
-        
-        // Set the view's delegate
-        sceneView.delegate = self
-        
-        // Show statistics such as fps and timing information
-        sceneView.showsStatistics = true
-        
-        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
-        
-        sceneView.scene.physicsWorld.contactDelegate = self
-        
-        // Set up the score label
-        scoreLabel.text = "Score: \(score)"
-        
-        // Set up the ball count label
-        ballsRemainingLabel.text = "Balls Remaining: \(ballCount!)"
-        
+        if loop != nil { // Setup and perform segue
+            loop?.updater.isPaused = !(loop?.updater.isPaused)!
+            self.performSegue(withIdentifier: "pauseSegue", sender: self)
+        }
     }
     
     func getTime() -> Int {
@@ -179,7 +244,6 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 }
                 
             }
-            
             
         }
         
@@ -236,29 +300,13 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
-        
-        configuration.planeDetection = [.horizontal]
-
-        // Run the view's session
-        sceneView.session.run(configuration)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Pause the view's session
-        sceneView.session.pause()
-    }
-    
     @IBAction func screenTapped(_ sender: UITapGestureRecognizer) {
         
         // Initiate the ball
         ball = Ball(sceneView: sceneView)
+        gamePausedGraphic.isHidden = true
+        gamePausedText.text = ""
+        passedText = ""
         
         // Check for first click to difine floor
         if !gameStarted {
@@ -273,6 +321,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 currentBallColor = currentColor
                 
                 // Begin keeping track of time
+                
                 start = DispatchTime.now()
                 
                 sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
@@ -309,9 +358,9 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 ballColor = currentBallColor!
                 ball?.throwBall()
             }
+            
         }
     }
-    
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         DispatchQueue.main.async {
@@ -362,15 +411,30 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             
             print("Did win: \(didWin)")
             
-            if (didWin) {
-                resultsViewController.message = Message.win            }
-            else {
-                resultsViewController.message = Message.loose
-            }
+        }
+        else if segue.identifier == "pauseSegue" {
+            
+            loop?.updater.isPaused = true
+            
+            scene = sceneView
+            
+            guard let pauseViewController = segue.destination as? PauseViewController else { return }
+            
+            pauseViewController.passedHoopCount = hoopCount
+            pauseViewController.passedBallCount = ballCount
+            pauseViewController.currentLevelNumber = currentLevelNumber
+            pauseViewController.currentLevel = currentLevel
+            pauseViewController.currentColor = currentColor
+            pauseViewController.score = score
+            pauseViewController.passedTargetScore = currentLevel.threeStarsScore
+            pauseViewController.loop = loop
+            pauseViewController.passedBeginningBallCount = currentLevel.ballCount
+            pauseViewController.sceneView = sceneView
+            
         }
     }
     
-
+    
     // MARK: - ARSCNViewDelegate
     
 /*

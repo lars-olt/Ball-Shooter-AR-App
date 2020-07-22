@@ -34,23 +34,28 @@ class ResultsViewController: UIViewController {
             case _ where score < TargetScore.noStars:
                 levelStarCount = 0
                 finalStarsCount.image = UIImage(named: FinalStars.star_0)
+                message = Message.loose
                 
             case _ where score < currentLevel.oneStarScore:
                 levelStarCount = 1
                 finalStarsCount.image = UIImage(named: FinalStars.star_1)
+                message = Message.loose
                 
             case _ where score < currentLevel.twoStarsScore:
                 levelStarCount = 2
                 finalStarsCount.image = UIImage(named: FinalStars.star_2)
+                message = Message.win
                 
             case _ where score == currentLevel.threeStarsScore:
                 levelStarCount = 3
                 finalStarsCount.image = UIImage(named: FinalStars.star_3)
+                message = Message.win
                 
             default:
                 print("Score count is out of range")
                 levelStarCount = 0
                 finalStarsCount.image = UIImage(named: FinalStars.star_0)
+                message = Message.win
             
         }
         
@@ -82,7 +87,8 @@ class ResultsViewController: UIViewController {
                 
                 gameViewController.currentLevel = nextLevel
                 gameViewController.currentLevelNumber = currentLevelNumber + 1
-                gameViewController.ballCount = gameViewController.currentLevel.ballCount
+                currentLevelBallCount = gameViewController.currentLevel.ballCount
+                gameViewController.ballCount = currentLevelBallCount!
                 gameViewController.hoopCount = gameViewController.currentLevel.hoopCount
                 gameViewController.hoopInterval = gameViewController.currentLevel.hoopInterval
                 gameViewController.changerInterval = gameViewController.currentLevel.changerInterval
@@ -114,7 +120,7 @@ class ResultsViewController: UIViewController {
     @IBAction func switchLevelBtnPressed(_ sender: Any) {
         
         // Segue to the levels view
-        guard let levelsViewController = storyboard?.instantiateViewController(withIdentifier: "LevelSelectionView") as? LevelsViewController else {return}
+        guard let levelsViewController = storyboard?.instantiateViewController(withIdentifier: "LevelsViewController") as? LevelsViewController else {return}
         
         // Set the starcount on the current level
         levelsViewController.passedLevelNumber = currentLevelNumber
@@ -158,7 +164,6 @@ class ResultsViewController: UIViewController {
         gameStarted = false
         
         // Set up the level for the levels view
-        
         levelsStarCount[currentLevelNumber] = levelStarCount!
         
         saveDefaults()

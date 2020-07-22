@@ -12,6 +12,7 @@ class GameLoop: NSObject {
     
     var funcToRun: () -> ()?
     var updater: CADisplayLink!
+    var fps = 1
     
     init(funcToRun: @escaping () -> ()) {
         self.funcToRun = funcToRun
@@ -24,13 +25,14 @@ class GameLoop: NSObject {
     
     func start() {
         updater = CADisplayLink(target: self, selector: #selector(self.gameLoop))
-        updater.preferredFramesPerSecond = 1
+        updater.preferredFramesPerSecond = fps
         updater.add(to: RunLoop.current, forMode: RunLoop.Mode.common)
     }
     
     func stop() {
-        updater.invalidate()
+        updater.isPaused = true
         updater.remove(from: RunLoop.current, forMode: RunLoop.Mode.common)
+        updater.invalidate()
         updater = nil
     }
     

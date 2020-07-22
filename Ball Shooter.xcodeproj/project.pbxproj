@@ -28,6 +28,7 @@
 		74649C6A248C158C00EB047C /* HoopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74649C69248C158C00EB047C /* HoopModel.swift */; };
 		74649C6C248C15C100EB047C /* Hoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74649C6B248C15C100EB047C /* Hoop.swift */; };
 		74649C6E248D336000EB047C /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74649C6D248D336000EB047C /* Ball.swift */; };
+		7489651724BA706B00998B1B /* PauseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7489651624BA706B00998B1B /* PauseViewController.swift */; };
 		74DB4E15249BA2F700A5866B /* ColorChanger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DB4E14249BA2F700A5866B /* ColorChanger.swift */; };
 		74DB4E17249BBBB400A5866B /* changerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74DB4E16249BBBB400A5866B /* changerModel.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +57,7 @@
 		74649C69248C158C00EB047C /* HoopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoopModel.swift; sourceTree = "<group>"; };
 		74649C6B248C15C100EB047C /* Hoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hoop.swift; sourceTree = "<group>"; };
 		74649C6D248D336000EB047C /* Ball.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
+		7489651624BA706B00998B1B /* PauseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseViewController.swift; sourceTree = "<group>"; };
 		74DB4E14249BA2F700A5866B /* ColorChanger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorChanger.swift; sourceTree = "<group>"; };
 		74DB4E16249BBBB400A5866B /* changerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = changerModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				746460222481544D008598A6 /* GameViewController.swift */,
+				7489651624BA706B00998B1B /* PauseViewController.swift */,
 				744DDCA52496B20600AD5D95 /* GameLoop.swift */,
 				74649C69248C158C00EB047C /* HoopModel.swift */,
 				74649C6B248C15C100EB047C /* Hoop.swift */,
@@ -249,6 +252,7 @@
 				744C845424A3AA1900991638 /* LevelModel.swift in Sources */,
 				744C845224A3A87200991638 /* Level.swift in Sources */,
 				744C844E24A26A6900991638 /* Constants.swift in Sources */,
+				7489651724BA706B00998B1B /* PauseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

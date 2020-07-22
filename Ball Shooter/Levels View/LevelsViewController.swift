@@ -10,6 +10,7 @@ import UIKit
 
 var unlockedLevels = [1]
 var levelsStarCount: [Int] = []
+var currentLevelBallCount: Int?
 
 class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -79,7 +80,8 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
             
             unlockedLevels.append(level.levelNumber)
             
-        } else {
+        }
+        else {
             level.isUnlocked = false
         }
         
@@ -89,7 +91,7 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
         
         // Set and update the starcount
-        if (levelsStarCount[level.levelNumber - 1] != 0) {
+        if (levelsStarCount.count != 0 && levelsStarCount[level.levelNumber - 1] != 0) {
             level.stars = levelsStarCount[level.levelNumber - 1]
         }
         
@@ -137,7 +139,8 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
             // Initilize the game for the current level
             gameViewController.currentLevel = currentLevel
             gameViewController.currentLevelNumber = level!.levelNumber
-            gameViewController.ballCount = currentLevel?.ballCount
+            currentLevelBallCount = currentLevel?.ballCount
+            gameViewController.ballCount = currentLevelBallCount!
             gameViewController.hoopCount = currentLevel?.hoopCount
             gameViewController.hoopInterval = currentLevel?.hoopInterval
             gameViewController.changerInterval = currentLevel?.changerInterval

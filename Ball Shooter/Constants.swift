@@ -50,3 +50,8 @@ struct Keys {
     static let levelsStarCount = "savedLevelsStarCount"
     static let unlockedLevels = "savedUnlockedLevels"
 }
+
+struct ResumeGame {
+    static let resumeMsg = "Tap on the screen to resume your game."
+    static let restartMsg = "Tap on the screen to restart your game."
+}

@@ -16,6 +16,7 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     
     var images: [String] = [String]()
     var frame = CGRect.init(x: 0, y: 0, width: 0, height: 0)
+    var gap = 20
     
     override func viewDidLoad() {
         super.viewDidLoad()

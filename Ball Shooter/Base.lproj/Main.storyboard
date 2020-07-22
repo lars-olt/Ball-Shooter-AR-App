@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="z1J-UI-KMS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="z1J-UI-KMS">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -68,12 +68,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iao-TP-WXs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-991" y="136"/>
+            <point key="canvasLocation" x="-202" y="136"/>
         </scene>
         <!--Levels View Controller-->
         <scene sceneID="jlP-nz-uNq">
             <objects>
-                <viewController storyboardIdentifier="LevelSelectionView" id="D54-sC-EQ6" customClass="LevelsViewController" customModule="Ball_Shooter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LevelsViewController" id="D54-sC-EQ6" customClass="LevelsViewController" customModule="Ball_Shooter" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UYF-V3-pmf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -211,7 +211,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2NS-Dy-UDg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-196" y="589.65517241379314"/>
+            <point key="canvasLocation" x="-202" y="888"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
@@ -246,12 +246,42 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vFS-jw-ZP1">
+                                <rect key="frame" x="308" y="69" width="42" height="42"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="bJB-Og-w4y"/>
+                                    <constraint firstAttribute="width" constant="42" id="jF2-sH-op0"/>
+                                </constraints>
+                                <state key="normal" image="Pause_Btn"/>
+                                <connections>
+                                    <action selector="pauseBtnPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="bTj-D2-cGe"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Game_Pause_Graphic" translatesAutoresizingMaskIntoConstraints="NO" id="QqK-1X-Kny">
+                                <rect key="frame" x="64.666666666666686" y="278.33333333333331" width="246" height="255.33333333333331"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap on the screen to resume your game." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRM-0u-zrI">
+                                <rect key="frame" x="83.666666666666686" y="300.66666666666669" width="208" height="211"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="208" id="JAf-Bk-BT9"/>
+                                    <constraint firstAttribute="height" constant="211" id="qDn-bL-oIx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="29"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="MRM-0u-zrI" firstAttribute="centerX" secondItem="U0K-SW-4ec" secondAttribute="centerX" id="5fX-O7-RIK"/>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="vFS-jw-ZP1" secondAttribute="trailing" constant="25" id="7Ej-Mo-6QE"/>
+                            <constraint firstItem="QqK-1X-Kny" firstAttribute="centerX" secondItem="U0K-SW-4ec" secondAttribute="centerX" id="BHG-gv-A7w"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
+                            <constraint firstItem="vFS-jw-ZP1" firstAttribute="top" secondItem="fQZ-KI-GVf" secondAttribute="top" constant="25" id="Ss9-uV-iTP"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" id="VpT-BR-CcM"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
+                            <constraint firstItem="MRM-0u-zrI" firstAttribute="centerY" secondItem="U0K-SW-4ec" secondAttribute="centerY" id="Yon-ug-VfA"/>
+                            <constraint firstItem="QqK-1X-Kny" firstAttribute="centerY" secondItem="U0K-SW-4ec" secondAttribute="centerY" id="bYG-9j-Dxf"/>
                             <constraint firstItem="4AB-oN-bMp" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" constant="30" id="boS-Ef-jnl"/>
                             <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="4AB-oN-bMp" secondAttribute="trailing" constant="205" id="dkE-K3-fbk"/>
                             <constraint firstAttribute="bottom" secondItem="o4M-xJ-FfY" secondAttribute="bottom" id="fVK-E5-fFb"/>
@@ -267,9 +297,12 @@
                     </view>
                     <connections>
                         <outlet property="ballsRemainingLabel" destination="7Yx-uE-pNq" id="NCN-0I-z8A"/>
+                        <outlet property="gamePausedGraphic" destination="QqK-1X-Kny" id="QpB-TY-c0M"/>
+                        <outlet property="gamePausedText" destination="MRM-0u-zrI" id="KAc-kb-J62"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
                         <outlet property="scoreLabel" destination="4AB-oN-bMp" id="jbB-EZ-U7T"/>
                         <segue destination="F0o-AM-dP8" kind="presentation" identifier="displayResults" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="yWX-D4-4Gb"/>
+                        <segue destination="hra-ZB-36t" kind="presentation" identifier="pauseSegue" modalPresentationStyle="fullScreen" id="W2c-db-eu9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -279,7 +312,94 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1364" y="136"/>
+            <point key="canvasLocation" x="1364" y="135.96059113300493"/>
+        </scene>
+        <!--Pause View Controller-->
+        <scene sceneID="TKJ-Xi-fHO">
+            <objects>
+                <viewController id="hra-ZB-36t" customClass="PauseViewController" customModule="Ball_Shooter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wF0-nz-NZa">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Main_Bg" translatesAutoresizingMaskIntoConstraints="NO" id="FRt-j7-00L">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="NvW-lW-MHC">
+                                <rect key="frame" x="46" y="115.33333333333331" width="283" height="581.33333333333348"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Game Paused" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="so8-8Y-r9L">
+                                        <rect key="frame" x="0.0" y="0.0" width="283" height="51.666666666666664"/>
+                                        <fontDescription key="fontDescription" name="Raleway-Light" family="Raleway" pointSize="44"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="70" translatesAutoresizingMaskIntoConstraints="NO" id="eoE-Ni-PtY">
+                                        <rect key="frame" x="50.666666666666686" y="151.66666666666669" width="182" height="263"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vsz-aO-YUq">
+                                                <rect key="frame" x="0.0" y="0.0" width="182" height="41"/>
+                                                <state key="normal" backgroundImage="Continue_Btn"/>
+                                                <connections>
+                                                    <action selector="continueBtn:" destination="hra-ZB-36t" eventType="touchUpInside" id="9xt-A3-2FL"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEq-Fq-7Ix">
+                                                <rect key="frame" x="0.0" y="111" width="182" height="41"/>
+                                                <state key="normal" backgroundImage="Switch_Level_Btn"/>
+                                                <connections>
+                                                    <action selector="switchLevelBtn:" destination="hra-ZB-36t" eventType="touchUpInside" id="Pwz-RK-2pl"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEd-kR-hrv">
+                                                <rect key="frame" x="0.0" y="222" width="182" height="41"/>
+                                                <state key="normal" backgroundImage="Restart_Level_Btn"/>
+                                                <connections>
+                                                    <action selector="restartBtn:" destination="hra-ZB-36t" eventType="touchUpInside" id="AJe-io-MWk"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VLB-J4-8Pa">
+                                        <rect key="frame" x="52.666666666666671" y="514.66666666666663" width="177.66666666666663" height="66.666666666666629"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Score: ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kAZ-uo-e7e">
+                                                <rect key="frame" x="0.0" y="0.0" width="177.66666666666666" height="28.333333333333332"/>
+                                                <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score to Beat: ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcV-ar-Che">
+                                                <rect key="frame" x="2" y="38.333333333333371" width="174" height="28.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="Raleway-Regular" family="Raleway" pointSize="24"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="NvW-lW-MHC" firstAttribute="centerX" secondItem="wF0-nz-NZa" secondAttribute="centerX" id="8zM-LD-haT"/>
+                            <constraint firstItem="NvW-lW-MHC" firstAttribute="centerY" secondItem="wF0-nz-NZa" secondAttribute="centerY" id="Glq-wQ-BIp"/>
+                            <constraint firstItem="AEu-28-vyM" firstAttribute="trailing" secondItem="FRt-j7-00L" secondAttribute="trailing" id="NkV-sA-Ihb"/>
+                            <constraint firstItem="FRt-j7-00L" firstAttribute="leading" secondItem="AEu-28-vyM" secondAttribute="leading" id="WVV-N0-fv6"/>
+                            <constraint firstAttribute="bottom" secondItem="FRt-j7-00L" secondAttribute="bottom" id="jZ0-We-A5z"/>
+                            <constraint firstItem="FRt-j7-00L" firstAttribute="top" secondItem="wF0-nz-NZa" secondAttribute="top" id="kIm-jc-o7J"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="AEu-28-vyM"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AEC-qi-1A7"/>
+                    <connections>
+                        <outlet property="currentScoreLabel" destination="kAZ-uo-e7e" id="AgE-IC-mBE"/>
+                        <outlet property="scoreToBeatLabel" destination="hcV-ar-Che" id="wBD-6a-cw5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AJq-UX-MCx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2205.5999999999999" y="-181.0344827586207"/>
         </scene>
         <!--Results View Controller-->
         <scene sceneID="f8y-BS-N4S">
@@ -381,7 +501,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OSd-zG-bTK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2138" y="136"/>
+            <point key="canvasLocation" x="2206" y="491"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -389,9 +509,12 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Bottom_Banner" width="375" height="100"/>
+        <image name="Continue_Btn" width="182" height="41"/>
+        <image name="Game_Pause_Graphic" width="246" height="255.33332824707031"/>
         <image name="Main_Bg" width="375" height="812"/>
         <image name="Next_Btn" width="182" height="41"/>
         <image name="Next_Level_Btn_on" width="182" height="41"/>
+        <image name="Pause_Btn" width="42" height="42"/>
         <image name="Restart_Level_Btn" width="182" height="41"/>
         <image name="Star_Count_0" width="185" height="47.333332061767578"/>
         <image name="Start Btn" width="182" height="41"/>
