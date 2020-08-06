@@ -20,9 +20,10 @@
 		744C845A24A5286E00991638 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744C845924A5286E00991638 /* ResultsViewController.swift */; };
 		744C846124A7DCBA00991638 /* Levels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744C846024A7DCBA00991638 /* Levels.swift */; };
 		744DDCA62496B20600AD5D95 /* GameLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 744DDCA52496B20600AD5D95 /* GameLoop.swift */; };
+		74510A0924D7115E0031A5BE /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74510A0824D7115E0031A5BE /* GameViewController.swift */; };
+		74510A0B24D9D8330031A5BE /* generateRandomPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74510A0A24D9D8330031A5BE /* generateRandomPosition.swift */; };
 		7464601F2481544D008598A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7464601E2481544D008598A6 /* AppDelegate.swift */; };
 		746460212481544D008598A6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 746460202481544D008598A6 /* art.scnassets */; };
-		746460232481544D008598A6 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 746460222481544D008598A6 /* GameViewController.swift */; };
 		746460262481544D008598A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 746460242481544D008598A6 /* Main.storyboard */; };
 		7464602824815454008598A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7464602724815454008598A6 /* Assets.xcassets */; };
 		74649C6A248C158C00EB047C /* HoopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74649C69248C158C00EB047C /* HoopModel.swift */; };
@@ -47,10 +48,11 @@
 		744C845924A5286E00991638 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		744C846024A7DCBA00991638 /* Levels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Levels.swift; sourceTree = "<group>"; };
 		744DDCA52496B20600AD5D95 /* GameLoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameLoop.swift; sourceTree = "<group>"; };
+		74510A0824D7115E0031A5BE /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		74510A0A24D9D8330031A5BE /* generateRandomPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = generateRandomPosition.swift; sourceTree = "<group>"; };
 		7464601B2481544D008598A6 /* Ball Shooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ball Shooter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7464601E2481544D008598A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		746460202481544D008598A6 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		746460222481544D008598A6 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		746460252481544D008598A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7464602724815454008598A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7464602C24815454008598A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,7 +97,8 @@
 		744C845C24A528C900991638 /* Game View */ = {
 			isa = PBXGroup;
 			children = (
-				746460222481544D008598A6 /* GameViewController.swift */,
+				74510A0824D7115E0031A5BE /* GameViewController.swift */,
+				74510A0A24D9D8330031A5BE /* generateRandomPosition.swift */,
 				7489651624BA706B00998B1B /* PauseViewController.swift */,
 				744DDCA52496B20600AD5D95 /* GameLoop.swift */,
 				74649C69248C158C00EB047C /* HoopModel.swift */,
@@ -151,8 +154,8 @@
 				744C845D24A5376F00991638 /* Levels View */,
 				744C845C24A528C900991638 /* Game View */,
 				744C845E24A538E200991638 /* Results View */,
-				744C846024A7DCBA00991638 /* Levels.swift */,
 				744C844D24A26A6900991638 /* Constants.swift */,
+				744C846024A7DCBA00991638 /* Levels.swift */,
 				746460242481544D008598A6 /* Main.storyboard */,
 				7464602724815454008598A6 /* Assets.xcassets */,
 				7464602C24815454008598A6 /* Info.plist */,
@@ -235,7 +238,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				746460232481544D008598A6 /* GameViewController.swift in Sources */,
 				74649C6A248C158C00EB047C /* HoopModel.swift in Sources */,
 				74649C6E248D336000EB047C /* Ball.swift in Sources */,
 				744C845A24A5286E00991638 /* ResultsViewController.swift in Sources */,
@@ -243,7 +245,9 @@
 				744C845624A3B72900991638 /* LevelsViewController.swift in Sources */,
 				74DB4E15249BA2F700A5866B /* ColorChanger.swift in Sources */,
 				7448EBB424AE55860066A95B /* OnboardingViewController.swift in Sources */,
+				74510A0924D7115E0031A5BE /* GameViewController.swift in Sources */,
 				744C846124A7DCBA00991638 /* Levels.swift in Sources */,
+				74510A0B24D9D8330031A5BE /* generateRandomPosition.swift in Sources */,
 				7464601F2481544D008598A6 /* AppDelegate.swift in Sources */,
 				74649C6C248C15C100EB047C /* Hoop.swift in Sources */,
 				7448EBB224AE52980066A95B /* StartViewController.swift in Sources */,

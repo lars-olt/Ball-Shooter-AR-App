@@ -17,12 +17,13 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
     var images: [String] = [String]()
     var frame = CGRect.init(x: 0, y: 0, width: 0, height: 0)
     var gap = 20
+    var imageCount = 8
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Fill up the images array
-        for i in 1...7 {
+        for i in 1...imageCount {
             images.append("Instruction_page_\(i)")
         }
         
@@ -38,8 +39,9 @@ class OnboardingViewController: UIViewController, UIScrollViewDelegate {
         for index in 0..<images.count {
             
             // Set up the frame position based on the other frames
-            frame.origin.x = onboardingScroll.frame.size.width * CGFloat(index)
-            frame.size = onboardingScroll.frame.size
+            frame.origin.x = onboardingScroll.frame.size.width * CGFloat(index) + CGFloat(gap / 2)
+            let size = onboardingScroll.frame.size
+            frame.size = CGSize(width: size.width - CGFloat(gap), height: size.height)
             
             // Set up the view
             let imageView = UIImageView(frame: frame)

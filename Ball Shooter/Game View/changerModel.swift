@@ -11,22 +11,9 @@ import SceneKit
 import ARKit
 import QuartzCore
 
-func createChanger(sceneView: ARSCNView, result: ARHitTestResult, color: UIColor) {
-    
-    var pos: Int?
-    
-    if leftSide == true {
-        pos = -1
-    }
-    else {
-        pos = 1
-    }
-    
-    // Create hoops
-    let currentFrame = sceneView.session.currentFrame
-    let cameraPosition = currentFrame!.camera.transform.columns.3
-    let planePosition = result.worldTransform.columns.3
-    position = SCNVector3(cameraPosition.x + Float(pos!), planePosition.y + 1.5, cameraPosition.z - 35)
+func createChanger(sceneView: ARSCNView, color: UIColor) {
+    // Create changer
+    position = generateRandomPositions(positionsY: yChangeArr)
     
     let changer = ColorChanger(sceneView: sceneView, position: position!, color: color)
     changer.addColorChanger()
@@ -34,7 +21,6 @@ func createChanger(sceneView: ARSCNView, result: ARHitTestResult, color: UIColor
     // Add the new hoop to the screen
     sceneView.scene.rootNode.addChildNode(changerNode)
     
-    changerNode.runAction(SCNAction.move(by: SCNVector3(0, 0, 40), duration: 5))
+    changerNode.runAction(SCNAction.move(by: SCNVector3(0, 0, 40), duration: TimeInterval(objectSpeed!)))
     
-    leftSide = !leftSide
 }

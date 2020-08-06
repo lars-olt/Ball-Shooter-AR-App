@@ -9,7 +9,6 @@
 import UIKit
 import ARKit
 
-var passedText = ""
 var initText = false
 
 class PauseViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
@@ -20,34 +19,35 @@ class PauseViewController: UIViewController, UIAdaptivePresentationControllerDel
     var score: Int!
     var passedTargetScore: Int!
     var currentLevelNumber: Int!
-    var passedHoopCount: Int!
     var passedBallCount: Int!
     var currentLevel: newLevel!
     var currentColor: UIColor!
     var passedBeginningBallCount: Int!
     var loop: GameLoop!
     var sceneView: ARSCNView!
+    var randomColorInterval: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        currentScoreLabel.text = "Current Score: \(score!)"
-        scoreToBeatLabel.text = "Score to Beat: \(passedTargetScore!)"
-        
+        let formattedScore = numberFormatter.string(from: NSNumber(value: score)) ?? "Score: "
+        let formattedScoreToBeat = numberFormatter.string(from: NSNumber(value: passedTargetScore)) ?? "Score: "
+        currentScoreLabel.text = "Current Score: \(formattedScore)"
+        scoreToBeatLabel.text = "Score to Beat: \(formattedScoreToBeat)"
     }
     
     
     @IBAction func continueBtn(_ sender: Any) {
         print("Continue running")
         // TODO: - Add a tap to continue btn
-        passedText = ResumeGame.resumeMsg
         
         guard let gameViewController = storyboard?.instantiateViewController(identifier: "GameViewController") as? GameViewController else { return }
         
         self.dismiss(animated: true) {
             gameStarted = false
             runWithoutSetup = true
+            unlockedLevels.append(self.currentLevelNumber + 1)
         }
-        
+        gameViewController.randomColorInterval = randomColorInterval
         gameViewController.resumeLoop()
         
     }
@@ -57,8 +57,17 @@ class PauseViewController: UIViewController, UIAdaptivePresentationControllerDel
         guard let levelsViewController = storyboard?.instantiateViewController(identifier: "LevelsViewController") as? LevelsViewController else { return }
         guard let gameViewController = storyboard?.instantiateViewController(identifier: "GameViewController") as? GameViewController else { return }
         
+        gameStarted = false
+        runWithoutSetup = false
         gameViewController.loop?.stop()
         hoopArray = [Hoop]()
+        
+        unlockedLevels.append(currentLevelNumber)
+        
+        if levelsStarCount[currentLevelNumber + 1] >= 2 {
+            // If the privious levels star count is greater than 2:
+            unlockedLevels.append(currentLevelNumber + 1)
+        }
         
         levelsViewController.modalPresentationStyle = .fullScreen
         present(levelsViewController, animated: false, completion: nil)
@@ -68,7 +77,6 @@ class PauseViewController: UIViewController, UIAdaptivePresentationControllerDel
     @IBAction func restartBtn(_ sender: Any) {
         print("Restart level")
         
-        passedText = ResumeGame.restartMsg
         initText = true
         
         guard let gameViewController = storyboard?.instantiateViewController(identifier: "GameViewController") as? GameViewController else { return }
@@ -76,6 +84,7 @@ class PauseViewController: UIViewController, UIAdaptivePresentationControllerDel
         self.dismiss(animated: true) {
             gameStarted = false
             runWithoutSetup = true
+            gameViewController.randomColorInterval = self.randomColorInterval
             gameViewController.viewDidLoad()
         }
         

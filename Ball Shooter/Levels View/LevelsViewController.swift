@@ -141,13 +141,14 @@ class LevelsViewController: UIViewController, UICollectionViewDelegate, UICollec
             gameViewController.currentLevelNumber = level!.levelNumber
             currentLevelBallCount = currentLevel?.ballCount
             gameViewController.ballCount = currentLevelBallCount!
-            gameViewController.hoopCount = currentLevel?.hoopCount
             gameViewController.hoopInterval = currentLevel?.hoopInterval
             gameViewController.changerInterval = currentLevel?.changerInterval
+            gameViewController.randomColorInterval = currentLevel?.randomColorInterval
             objectSpeed = currentLevel?.objectSpeed
             gameViewController.oneStarScore = currentLevel?.oneStarScore
             gameViewController.twoStarScore = currentLevel?.twoStarsScore
             gameViewController.threeStarScore = currentLevel?.threeStarsScore
+            gameViewController.yIncrease = currentLevel?.objectYIncrease
             
             gameStarted = false
         }

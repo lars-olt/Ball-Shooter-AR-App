@@ -30,6 +30,12 @@ class StartViewController: UIViewController {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        // Show the nav controller
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        super.viewWillAppear(animated)
+    }
+    
     @IBAction func startBtnPressed(_ sender: Any) {
         
         if playedBefore {

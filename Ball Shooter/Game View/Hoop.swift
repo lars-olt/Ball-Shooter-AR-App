@@ -38,20 +38,25 @@ class Hoop {
         // Configure the ring
         hoopNode!.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: hoopNode!))
         hoopNode!.position = position
-        //hoopNode!.physicsBody?.categoryBitMask = BodyType.hoop.rawValue
-        //hoopNode!.physicsBody?.collisionBitMask = BodyType.ball.rawValue
-        //hoopNode!.physicsBody?.contactTestBitMask = BodyType.ball.rawValue
         
-        //BodyType.screen.rawValue
+        // Set the screen name based on if the hoop is red or not
+        if screenColor == UIColor.red {
+            screenNode?.name = "falseHoop"
+        }
+        else {
+            screenNode?.name = name
+        }
         
         // Configure the screen
-        screenNode?.name = name
         screenNode?.geometry?.firstMaterial?.diffuse.contents = screenColor
         screenNode!.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: hoopNode!))
         screenNode!.position = position
         screenNode!.physicsBody?.categoryBitMask = BodyType.screen.rawValue
-        //screenNode!.physicsBody?.collisionBitMask = BodyType.ball.rawValue
         screenNode!.physicsBody?.contactTestBitMask = BodyType.ball.rawValue
+        
+        if screenColor == UIColor .red { // Lower opacuty for red hoops
+            screenNode?.opacity = 0.5
+        }
         
         // Set the rotation of the hoop
         hoopNode!.eulerAngles.y = cameraRotation!
@@ -62,4 +67,3 @@ class Hoop {
     }
     
 }
-

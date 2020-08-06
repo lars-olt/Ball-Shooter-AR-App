@@ -11,32 +11,24 @@ import SceneKit
 import ARKit
 import QuartzCore
 
-var leftSide = true
 var count = 0
 var hoopArray = [Hoop]()
 var position: SCNVector3?
 var objectSpeed: Int?
+var screens = [String]()
+var cameraPosition: simd_float4?
 
-func createHoop(sceneView: ARSCNView, result: ARHitTestResult) {
+func createHoop(sceneView: ARSCNView) {
     
-    var pos: Int?
+    position = generateRandomPositions(positionsY: yChangeArr)
+    
     count += 1
     
-    if leftSide == true {
-        pos = -1
-    }
-    else {
-        pos = 1
-    }
-    
     // Create hoops
-    let currentFrame = sceneView.session.currentFrame
-    let cameraPosition = currentFrame!.camera.transform.columns.3
-    let planePosition = result.worldTransform.columns.3
-    position = SCNVector3(cameraPosition.x + Float(pos!), planePosition.y + 1.5, cameraPosition.z - 35)
-    
     let hoop = Hoop(sceneView: sceneView, name: "screen\(count)", position: position!)
     hoop.createHoop()
+    
+    screens.append("screen\(count)")
     
     // Add the new hoop to the screen
     sceneView.scene.rootNode.addChildNode(newHoop)
@@ -47,7 +39,4 @@ func createHoop(sceneView: ARSCNView, result: ARHitTestResult) {
     
     hoopArray.append(hoop)
     
-    print(hoopArray)
-    
-    leftSide = !leftSide
 }

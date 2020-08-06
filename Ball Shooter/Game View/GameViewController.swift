@@ -14,6 +14,8 @@ var cameraRotation: Float?
 var gameStarted = false
 var scene: ARSCNView?
 var runWithoutSetup = false
+let numberFormatter = NumberFormatter()
+var yChangeArr = [Double]()
 
 enum BodyType: Int {
     case screen = 1
@@ -27,13 +29,14 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
     // Declirations to assign the level
     var currentLevel: newLevel!
     var ballCount: Int!
-    var hoopCount: Int!
     var hoopInterval: Int!
     var changerInterval: Int!
+    var randomColorInterval: Int!
     var oneStarScore: Int!
     var twoStarScore: Int!
     var threeStarScore: Int!
     var currentLevelNumber: Int!
+    var yIncrease: Double!
     
     var floorUsed = false
     var loop: GameLoop?
@@ -47,6 +50,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
     var bounds = UIScreen.main.bounds
     let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
     var didWin = false
+    let colors = ["DarkPink", "LightBlue", "LightOrange", "LightPink", "LightPurple", "LightYellow", "MidOrange", "MidPink"]
     
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var scoreLabel: UILabel!
@@ -59,6 +63,12 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         
         currentColor = UIColor .cyan
         
+        // Set the change increase in the y axis
+        yChangeArr = [0.0]
+        yChangeArr.append(-yIncrease)
+        yChangeArr.append(yIncrease)
+        print(yChangeArr)
+        
         if !runWithoutSetup {
             gamePausedGraphic.isHidden = true
             
@@ -66,8 +76,8 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             sceneView.delegate = self
             
             // Show statistics such as fps and timing information
-            sceneView.showsStatistics = true
-            sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+//            sceneView.showsStatistics = true
+//            sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
             sceneView.scene.physicsWorld.contactDelegate = self
         }
         
@@ -79,12 +89,25 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         }
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        gamePausedGraphic.isHidden = false
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        gamePausedGraphic.isHidden = false
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        
+        // Remove any extra hoops from the screen
+        sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
+            
+            if node.name == "ring" {
+                node.removeFromParentNode()
+            }
+            
+            for name in screens {
+                if node.name == name {
+                    node.removeFromParentNode()
+                }
+            }
+        }
         
         // Init the game to be restarted
         if initText {
@@ -101,33 +124,44 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 }
             }
             
-            // Display the values
-            scoreLabel.text = "Score: \(score)"
-            ballsRemainingLabel.text = "Ball Count: \(ballCount!)"
             initText = false
         }
         
         // Set the pause screen text
-        if passedText != "" {
-            gamePausedText.text = passedText
-            passedText = ""
-        }
-        else {
-            gamePausedText.text = ""
-        }
+        gamePausedText.text = "Start Game"
         
-        // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
+        let configuration = ARWorldTrackingConfiguration() // Create a session configuration
+        sceneView.session.run(configuration) // Run the view's session
         
-        configuration.planeDetection = [.horizontal]
-        
-        // Run the view's session
-        sceneView.session.run(configuration)
+        // Display the initial score and ball count
+        scoreLabel.text = getFormattedScore()
+        ballsRemainingLabel.text = getFormattedBallCount()
         
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        
+        sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
+            if node.name == "Visibleball" {
+                node.removeFromParentNode()
+            }
+        }
+    }
+    
+    func getFormattedScore() -> String {
+        let formattedScore = numberFormatter.string(from: NSNumber(value: score)) ?? "Score: "
+        return "Score: \(formattedScore)"
+    }
+    
+    func getFormattedBallCount() -> String {
+        let formattedBallCount = numberFormatter.string(from: NSNumber(value: ballCount!)) ?? "Balls Remaining: "
+        return "Balls Remaining: \(formattedBallCount)"
+    }
+    
     func randomColor() -> UIColor {
-        return UIColor(red: CGFloat(drand48()), green: CGFloat(.random(in: 0...0.5)), blue: CGFloat(drand48()), alpha: 1.0)
+        let index = arc4random_uniform(UInt32(colors.count - 1))
+        let name = colors[Int(index)]
+        return UIColor.init(named: name)!
     }
     
     func resumeLoop() {
@@ -135,71 +169,85 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         sceneView = scene!
     }
     
+    func playerWon() {
+        
+        didWin = true
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "displayResults", sender: self)
+        }
+    }
+    
+    func playerLost() {
+        
+        didWin = false
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "displayResults", sender: self)
+        }
+    }
+    
     @objc func runHoops() { // Game loop
         
+        // Check for game end
         if gameStarted == true {
             
             let time = getTime()
             
-            if (hoopCount == 0 && score < oneStarScore || ballCount == 0 && score < oneStarScore){
+            if (ballCount == 0 && score < oneStarScore){
                 // One star
                 // Player did not pass the level
                 
-                didWin = false
-                
-                self.performSegue(withIdentifier: "displayResults", sender: self)
+                playerLost()
                 
             }
-            
-            else if (hoopCount == 0 && score < twoStarScore || ballCount == 0 && score < twoStarScore) {
+            else if (ballCount == 0 && score < twoStarScore) {
                 // Two stars
                 // Player has passed the level
                 
-                didWin = true
-                
-                self.performSegue(withIdentifier: "displayResults", sender: self)
+                playerWon()
                 
             }
-            
             else if (score == threeStarScore) {
                 // Three stars
                 // Player gets all 3 stars
                 
-                didWin = true
-                
-                self.performSegue(withIdentifier: "displayResults", sender: self)
+                playerWon()
                 
             }
-            
             else if (time % changerInterval == objectSpeed && currentColor != currentBallColor)  {
-                
+                // If the hoop has made it to the player and the color hasnt been changed
                 // Player did not pass the level
+                
                 if score > oneStarScore {
-                    didWin = false
-                }
-                else {
                     didWin = true
                 }
+                else {
+                    didWin = false
+                }
                 
                 self.performSegue(withIdentifier: "displayResults", sender: self)
                 
             }
-            else if (time % hoopInterval == 0 && hoopCount != 0 && ballCount != 0 && currentColor == currentBallColor) {
+            else if (time % hoopInterval == 0 && ballCount != 0 && currentColor == currentBallColor) {
+                // Add a hoop or changer to the screen
                 
-                // Add a color changer to the screen
-                if time % changerInterval == 0 && time != 0 {
-                    
+                if time != 0 && time % changerInterval == 0 {
+                    // Add a color changer to the screen
                     currentColor = randomColor()
-                    createChanger(sceneView: sceneView, result: touchResult!, color: currentColor!)
+                    createChanger(sceneView: sceneView, color: currentColor!)
                     
                     // Update the color of the ring
                     screenColor = currentColor!
                     
                 } else { // Add a hoop to the screen
-                    
-                    createHoop(sceneView: sceneView, result: touchResult!)
-                    hoopCount -= 1
-                    
+                    // Check for random color
+                    if time != 0 && time % randomColorInterval == 0 {
+                        screenColor = UIColor.red
+                        createHoop(sceneView: sceneView)
+                        screenColor = currentColor! // Reset color
+                    }
+                    else {
+                        createHoop(sceneView: sceneView)
+                    }
                 }
                 
             }
@@ -237,8 +285,20 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                         
                         score += 600
                         DispatchQueue.main.async {
-                            self.scoreLabel.text = "Score: \(self.score)"
+                            self.scoreLabel.text = self.getFormattedScore()
                         }
+                    }
+                    else { // Colors did not match
+                        
+                        hoop.wasHit = true
+                        
+                        contact.nodeA.opacity = 1
+                        
+                        score -= 300
+                        DispatchQueue.main.async {
+                            self.scoreLabel.text = self.getFormattedScore()
+                        }
+                        
                     }
                     
                 }
@@ -272,6 +332,55 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         
     }
     
+    @IBAction func screenTapped(_ sender: UITapGestureRecognizer) {
+        
+        // Initiate the ball
+        ball = Ball(sceneView: sceneView)
+        gamePausedGraphic.isHidden = true
+        gamePausedText.text = ""
+        
+        // Check for first click to difine floor
+        if !gameStarted {
+            
+            // Set starting colors
+            currentColor = UIColor .cyan
+            screenColor = currentColor!
+            currentBallColor = currentColor
+            
+            // Begin keeping track of time
+            start = DispatchTime.now()
+            
+            // Set up the position and rotation
+            let currentFrame = sceneView.session.currentFrame
+            cameraPosition = currentFrame!.camera.transform.columns.3
+            cameraRotation = currentFrame!.camera.eulerAngles.y
+            
+            // Initialize game start
+            gameStarted = true
+            
+            loop = GameLoop(funcToRun: runHoops)
+            loop!.start()
+            
+            ballColor = currentBallColor!
+            
+            ballCount -= 1
+            ballsRemainingLabel.text = getFormattedBallCount()
+            ball?.createBall()
+            
+        }
+        else { // All other clicks
+            
+            // Shoot a ball if player still has balls
+            if (ballCount != 0) {
+                ballCount -= 1
+                ballsRemainingLabel.text = getFormattedBallCount()
+                ballColor = currentBallColor!
+                ball?.throwBall()
+            }
+            
+        }
+    }
+    
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         
         self.sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
@@ -286,10 +395,22 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
                 
             }
             
-            if (node.name != "ball" && node.name != "hoop" && node.name != "floor") {
+            if (node.name != "ball" && node.name != "hoop") {
                 
                 if (node.presentation.position.z > 1) {
                     
+                    for hoop in hoopArray{ // Check if the hoop was hit
+                        if hoop.name != "falseHoop" {
+                            if hoop.name == node.name && hoop.wasHit == false {
+                                
+                                // Hoop that was not hit passed the player
+                                playerLost()
+                                
+                            }
+                        }
+                    }
+                    
+                    // Remove it from the view
                     node.removeFromParentNode()
                     
                 }
@@ -298,68 +419,6 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             
         }
         
-    }
-    
-    @IBAction func screenTapped(_ sender: UITapGestureRecognizer) {
-        
-        // Initiate the ball
-        ball = Ball(sceneView: sceneView)
-        gamePausedGraphic.isHidden = true
-        gamePausedText.text = ""
-        passedText = ""
-        
-        // Check for first click to difine floor
-        if !gameStarted {
-            let touchLocation = sender.location(in: sceneView)
-            let hitTestResult = sceneView.hitTest(touchLocation, types: [.existingPlane])
-            
-            if let result = hitTestResult.first {
-                
-                // Set starting colors
-                currentColor = UIColor .cyan
-                screenColor = currentColor!
-                currentBallColor = currentColor
-                
-                // Begin keeping track of time
-                
-                start = DispatchTime.now()
-                
-                sceneView.scene.rootNode.enumerateChildNodes { (node, _) in
-                    if node.name == "floor" {
-                        floorUsed = true
-                        node.removeFromParentNode()
-                    }
-                }
-                
-                touchResult = result
-                
-                let currentFrame = sceneView.session.currentFrame
-                cameraRotation = currentFrame!.camera.eulerAngles.y
-                
-                // Initialize game start
-                gameStarted = true
-                
-                sceneView.debugOptions = []
-                
-                loop = GameLoop(funcToRun: runHoops)
-                loop!.start()
-                
-                ballColor = currentBallColor!
-                
-                ball?.createBall()
-            }
-        }
-        else { // All other clicks
-            
-            // Shoot a ball if player still has balls
-            if (ballCount != 0) {
-                ballCount -= 1
-                ballsRemainingLabel.text = "Balls Remaining: \(ballCount!)"
-                ballColor = currentBallColor!
-                ball?.throwBall()
-            }
-            
-        }
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
@@ -408,6 +467,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             resultsViewController.currentLevel = currentLevel
             resultsViewController.score = score
             resultsViewController.passedTargetScore = currentLevel.threeStarsScore
+            resultsViewController.randomColorInterval = randomColorInterval
             
             print("Did win: \(didWin)")
             
@@ -420,7 +480,6 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             
             guard let pauseViewController = segue.destination as? PauseViewController else { return }
             
-            pauseViewController.passedHoopCount = hoopCount
             pauseViewController.passedBallCount = ballCount
             pauseViewController.currentLevelNumber = currentLevelNumber
             pauseViewController.currentLevel = currentLevel
@@ -430,6 +489,7 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
             pauseViewController.loop = loop
             pauseViewController.passedBeginningBallCount = currentLevel.ballCount
             pauseViewController.sceneView = sceneView
+            pauseViewController.randomColorInterval = randomColorInterval
             
         }
     }
@@ -461,3 +521,4 @@ class GameViewController: UIViewController, ARSCNViewDelegate, SCNPhysicsContact
         
     }
 }
+

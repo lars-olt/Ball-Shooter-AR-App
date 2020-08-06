@@ -23,6 +23,7 @@ class ResultsViewController: UIViewController {
     var message: String!
     var currentLevel: newLevel!
     var currentLevelNumber: Int!
+    var randomColorInterval: Int!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +61,10 @@ class ResultsViewController: UIViewController {
         }
         
         textDisplayed.text = message
-        scoreDisplayed.text = "Score: \(String(score))"
-        targetScore.text = "Score to Beat: \(String(passedTargetScore))"
+        let formattedScore = numberFormatter.string(from: NSNumber(value: score)) ?? "Score: "
+        let formattedScoreToBeat = numberFormatter.string(from: NSNumber(value: passedTargetScore)) ?? "Score: "
+        scoreDisplayed.text = "Score: \(formattedScore)"
+        targetScore.text = "Score to Beat: \(formattedScoreToBeat)"
         
         // Set the next level btn
         if levelStarCount! >= 2 {
@@ -89,13 +92,13 @@ class ResultsViewController: UIViewController {
                 gameViewController.currentLevelNumber = currentLevelNumber + 1
                 currentLevelBallCount = gameViewController.currentLevel.ballCount
                 gameViewController.ballCount = currentLevelBallCount!
-                gameViewController.hoopCount = gameViewController.currentLevel.hoopCount
                 gameViewController.hoopInterval = gameViewController.currentLevel.hoopInterval
                 gameViewController.changerInterval = gameViewController.currentLevel.changerInterval
                 objectSpeed = gameViewController.currentLevel.objectSpeed
                 gameViewController.oneStarScore = gameViewController.currentLevel.oneStarScore
                 gameViewController.twoStarScore = gameViewController.currentLevel.twoStarsScore
                 gameViewController.threeStarScore = gameViewController.currentLevel.threeStarsScore
+                gameViewController.randomColorInterval = gameViewController.currentLevel.randomColorInterval
                 
                 gameStarted = false
                 
@@ -132,6 +135,7 @@ class ResultsViewController: UIViewController {
         }
         
         // Set up the level for the levels view
+        print("Current Level Number: \(currentLevelNumber)")
         unlockedLevels.append(currentLevelNumber)
         unlockedLevels.append(currentLevelNumber + 1)
         
@@ -153,13 +157,13 @@ class ResultsViewController: UIViewController {
         gameViewController.currentLevel = currentLevel
         gameViewController.currentLevelNumber = currentLevelNumber
         gameViewController.ballCount = currentLevel?.ballCount
-        gameViewController.hoopCount = currentLevel?.hoopCount
         gameViewController.hoopInterval = currentLevel?.hoopInterval
         gameViewController.changerInterval = currentLevel?.changerInterval
         objectSpeed = currentLevel?.objectSpeed
         gameViewController.oneStarScore = currentLevel?.oneStarScore
         gameViewController.twoStarScore = currentLevel?.twoStarsScore
         gameViewController.threeStarScore = currentLevel?.threeStarsScore
+        gameViewController.randomColorInterval = randomColorInterval
         
         gameStarted = false
         

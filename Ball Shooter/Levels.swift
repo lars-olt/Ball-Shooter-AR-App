@@ -8,41 +8,49 @@
 
 import Foundation
 
-// Keeps track of all of the levels in the game
+// Keeps track of all of the attributes of each level in the game
 var levels = [newLevel]()
 
 struct newLevel {
     
     var ballCount: Int
-    var hoopCount: Int
     var hoopInterval: Int
     var changerInterval: Int
+    var randomColorInterval: Int
     var objectSpeed: Int
     var oneStarScore: Int
     var twoStarsScore: Int
     var threeStarsScore: Int
+    var objectYIncrease: Double
     
 }
 
 func createLevels() {
+    var rowIncrease = 0
+    let scorePerBall = 600
+    let ballsAddedPerRound = 2
+    var yIncrease = 0.0
     
-    for i in 0...14 {
+    for levelNumber in 0...14 {
         
-        var change = 0
+        // Every 3 levels, increment rowIncrease value
+        if levelNumber != 0 && levelNumber % 3 == 0 { rowIncrease += 1; yIncrease += 0.5}
         
-        if (i % 3 == 0) {
-            change += 1
-        }
+        let ballCount = 10 + (levelNumber * ballsAddedPerRound)
+        let changerInterval = 9 + rowIncrease
+        let changerAccountance = Int(floor(Double(currentLevelBallCount ?? 0 / changerInterval)))
+        let pointIncrease = ((levelNumber * (scorePerBall * ballsAddedPerRound)) - changerAccountance) / 2
         
         levels.append( newLevel(
-        ballCount: 30 + i,
-        hoopCount: 20 + i,
-        hoopInterval: 7 - change, // NOTE: - Must be different from the changerInterval
-        changerInterval: 9,
-        objectSpeed: 6 - change,
-        oneStarScore: 5_000,
-        twoStarsScore: 12_000,
-        threeStarsScore: 12_000
+            ballCount: ballCount,
+            hoopInterval: 4 - rowIncrease, // NOTE: - Must be different from the changerInterval
+            changerInterval: changerInterval,
+            randomColorInterval: 5,
+            objectSpeed: 6 - rowIncrease,
+            oneStarScore: 2_000 + pointIncrease,
+            twoStarsScore: 6_000 + pointIncrease,
+            threeStarsScore: 6_000 + pointIncrease,
+            objectYIncrease: yIncrease
         ))
     }
     
