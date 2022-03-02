@@ -1,6 +1,8 @@
 # Ball-Shooter-AR-App
 This is an iOS game which utilizes Apples AR library to track components of the game into your surroundings.
 
+Premise is to shoot balls into hoops flying towards you enough times to reach the score needed to advance to the next level. Red colored hoops deduct points while blue hoops increase points.
+
 ## demos
 
 
